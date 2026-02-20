@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.37012.4 d17.14
+VisualStudioVersion = 17.14.37012.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{E4D79546-1941-4019-9727-787AE21CE0C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts.Tests", "TPW.Contracts.Tests\Contracts.Tests.csproj", "{C31C20E5-30A8-42E0-830D-626031E78597}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{E4D79546-1941-4019-9727-787AE21CE0C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4D79546-1941-4019-9727-787AE21CE0C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4D79546-1941-4019-9727-787AE21CE0C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C31C20E5-30A8-42E0-830D-626031E78597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C31C20E5-30A8-42E0-830D-626031E78597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31C20E5-30A8-42E0-830D-626031E78597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C31C20E5-30A8-42E0-830D-626031E78597}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C31C20E5-30A8-42E0-830D-626031E78597} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BF203665-702E-4926-8222-1FFB3478FB3D}

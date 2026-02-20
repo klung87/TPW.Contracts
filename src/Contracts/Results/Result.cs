@@ -2,6 +2,12 @@
 
 namespace Contracts.Results;
 
+/// <summary>
+/// A simple Result wrapper that can be used around any type.
+/// Will execute given delegates if it holds a value, and propagate an error if it doesn't.
+/// Null is not allowed.
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public sealed class Result<T>
 {
     private T? _value;
