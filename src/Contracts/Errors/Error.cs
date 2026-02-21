@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Errors;
 
-public sealed class Error
+public sealed partial class Error
 {
     private Exception? _exception;
     private string _message;
