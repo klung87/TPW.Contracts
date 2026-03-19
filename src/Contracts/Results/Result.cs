@@ -8,7 +8,7 @@ namespace Contracts.Results;
 /// Null is not allowed.
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public sealed class Result<T>
+public sealed class Result<T> where T : notnull
 {
     private T? _value;
     private IEnumerable<Error> _errors = [];
@@ -20,7 +20,9 @@ public sealed class Result<T>
     {
         if (item is null)
         {
-            throw new ArgumentNullException("Null is not a valid Result value");
+            _errors = [Error.NullValue(typeof(T))];
+            _isSuccess = false;
+            return;
         }
 
         _value = item;
@@ -85,6 +87,8 @@ public sealed class Result<T>
     public static implicit operator Result<T>(Error error) => new([error]);
 
     public static explicit operator T(Result<T> result) => result.GetValueOrThrow();
+    public static explicit operator Error(Result<T> result) => !result.IsSuccess ? result._errors.First()
+        : throw new InvalidOperationException("Result does not contain any errors.");
 
     private static bool IsFatal(Exception ex) =>
         ex is OperationCanceledException

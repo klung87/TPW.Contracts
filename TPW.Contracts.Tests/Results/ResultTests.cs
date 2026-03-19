@@ -1,4 +1,5 @@
-﻿using Contracts.Results;
+﻿using Contracts.Errors;
+using Contracts.Results;
 
 namespace Contracts.Tests;
 
@@ -18,19 +19,21 @@ public sealed class ResultTests
     }
 
     [Fact]
-    public async Task Result_ValueType_ArgNull_ShouldFail()
+    public void Result_ValueType_ArgNull_ShouldHaveError()
     {
-        Exception e = null;
-        try
-        {
-            _ = new Result<string>((string)null);
-        }
-        catch (Exception ex)
-        {
-            e = ex;
-        }
+        var stringNullResult = new Result<string>((string)null);
 
-        e.Should().NotBeNull();
+        MutableClass? myvar = null;
+        var nullReferenceResult = new Result<MutableClass>(myvar);
+
+        stringNullResult.IsSuccess.Should().BeFalse();
+        nullReferenceResult.IsSuccess.Should().BeFalse();
+
+        var stringResError = (Error)stringNullResult;
+        var nullResError = (Error)nullReferenceResult;
+
+        stringResError.Should().NotBeNull();
+        nullResError.Should().NotBeNull();
     }
 
     [Theory]
