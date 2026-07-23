@@ -81,6 +81,20 @@ public sealed class Result<T> where T : notnull
         return new Result<TOut>(_errors);
     }
 
+    public Task<Result<TOut>> SelectAsync<TOut>(Func<T, Task<TOut>> onSome, Func<Task<TOut>> onNone)
+    {
+        var task = IsSuccess ? onSome(_value!) : onNone();
+
+        if (task.IsCompletedSuccessfully)
+        {
+            return Task.FromResult(new Result<TOut>(task.Result));
+        }
+
+        return Wrap(task);
+
+        static async Task<Result<TOut>> Wrap(Task<TOut> t) => new Result<TOut>(await t);
+    }
+
     private T GetValueOrThrow() => _isSuccess ? _value! : throw new InvalidOperationException("Value of result is null");
 
     public static implicit operator Result<T>(T item) => new(item);

@@ -74,6 +74,58 @@ public sealed class ResultTests
         ((string)taskResult).Should().BeEquivalentTo(after);
     }
 
+    [Fact]
+    public async Task Result_SelectAsync_SuccessResult_SynchronousTask_ShouldSucceed()
+    {
+        var result = new Result<int>(5);
+
+        var afterResult = await result.SelectAsync(
+            onSome: x => Task.FromResult(x.ToString()),
+            onNone: () => Task.FromResult("none"));
+
+        afterResult.IsSuccess.Should().BeTrue();
+        ((string)afterResult).Should().Be("5");
+    }
+
+    [Fact]
+    public async Task Result_SelectAsync_FailureResult_SynchronousTask_ShouldCallOnNone()
+    {
+        var result = new Result<int>(new Error("test error", 0));
+
+        var afterResult = await result.SelectAsync(
+            onSome: x => Task.FromResult(x.ToString()),
+            onNone: () => Task.FromResult("none"));
+
+        afterResult.IsSuccess.Should().BeTrue();
+        ((string)afterResult).Should().Be("none");
+    }
+
+    [Fact]
+    public async Task Result_SelectAsync_SuccessResult_AsynchronousTask_ShouldSucceed()
+    {
+        var result = new Result<int>(5);
+
+        var afterResult = await result.SelectAsync(
+            onSome: async x => { await Task.Delay(10); return x.ToString(); },
+            onNone: async () => { await Task.Delay(10); return "none"; });
+
+        afterResult.IsSuccess.Should().BeTrue();
+        ((string)afterResult).Should().Be("5");
+    }
+
+    [Fact]
+    public async Task Result_SelectAsync_FailureResult_AsynchronousTask_ShouldCallOnNone()
+    {
+        var result = new Result<int>(new Error("test error", 0));
+
+        var afterResult = await result.SelectAsync(
+            onSome: async x => { await Task.Delay(10); return x.ToString(); },
+            onNone: async () => { await Task.Delay(10); return "none"; });
+
+        afterResult.IsSuccess.Should().BeTrue();
+        ((string)afterResult).Should().Be("none");
+    }
+
     [Theory]
     [MemberData(nameof(ErrorData))]
     public void Result_SelectIf_ErrorData_ShouldContainError(Errors.Error error)
